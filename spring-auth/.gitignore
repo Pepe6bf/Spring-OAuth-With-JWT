@@ -176,3 +176,6 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,gradle,java,macos
+/src/main/resources/application-jwt.yml
+/src/main/resources/application-local_db.yml
+/src/main/resources/application-OAuth_Social.yml
