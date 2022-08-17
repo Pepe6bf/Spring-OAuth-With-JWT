@@ -74,13 +74,8 @@ public class AuthToken {
      */
     public Claims getExpiredTokenClaims() {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+            getTokenClaims();
         } catch (ExpiredJwtException e) {
-            log.info("만료된 토큰 입니다.");
             return e.getClaims();
         }
         return null;

@@ -37,7 +37,13 @@ public class AuthenticationExceptionHandler {
      */
     @ExceptionHandler(JwtException.class)
     protected ResponseEntity<ErrorResponse> handleJwtException(JwtException e) {
-        final ErrorResponse errorResponse = ErrorResponse.of(INVALID_TOKEN);
+        final ErrorResponse errorResponse;
+
+        if (e.getMessage().equals(NOT_EXPIRED_TOKEN.getMessage())) {
+            errorResponse = ErrorResponse.of(NOT_EXPIRED_TOKEN);
+        } else {
+            errorResponse = ErrorResponse.of(INVALID_TOKEN);
+        }
 
         return new ResponseEntity<>(
                 errorResponse,

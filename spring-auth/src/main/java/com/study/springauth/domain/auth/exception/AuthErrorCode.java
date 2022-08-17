@@ -22,7 +22,8 @@ public enum AuthErrorCode implements ErrorCdoe {
     INVALID_TOKEN(400, "A100", "잘못된 토큰 입니다."),
     FAILED_GENERATE_TOKEN(500, "A101", "토큰 생성에 실패하였습니다."),
     EXPIRED_TOKEN(401, "A102", "만료된 토큰 입니다."),
-    INVALID_REFRESH_TOKEN(400, "A103", "잘못된 refresh token 입니다."),
+    NOT_EXPIRED_TOKEN(401, "A103", "만료되지 않은 토큰 입니다."),
+    INVALID_REFRESH_TOKEN(400, "A104", "잘못된 refresh token 입니다."),
 
     /**
      * OAuth
