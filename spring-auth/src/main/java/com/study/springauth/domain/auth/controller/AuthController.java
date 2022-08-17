@@ -40,18 +40,22 @@ public class AuthController {
                 .map(Cookie::getValue)
                 .orElse((null));
 
-
         Map<String, AuthToken> tokens = tokenService.reissueToken(accessToken, refreshToken);
 
         long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
         // refresh token cookie 재설정
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, tokens.get("refreshToken").getToken(), cookieMaxAge);
+        if (tokens.containsKey("newRefreshToken")) {
+            CookieUtil.addCookie(response, REFRESH_TOKEN, tokens.get("newRefreshToken").getToken(), cookieMaxAge);
+        } else {
+            CookieUtil.addCookie(response, REFRESH_TOKEN, tokens.get("refreshToken").getToken(), cookieMaxAge);
+        }
 
         Map<String, String> responseResult = new HashMap<>();
         responseResult.put("newAccessToken", tokens.get("accessToken").getToken());
-        responseResult.put("refreshToken", tokens.get("refreshToken").getToken());
+        if (tokens.containsKey("newRefreshToken"))
+            responseResult.put("newRefreshToken", tokens.get("newRefreshToken").getToken());
 
         return responseService.getSingleResult(
                 HttpStatus.OK.value(),
